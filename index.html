@@ -312,15 +312,11 @@
             <span id="spreadValue" style="font-family:var(--font-heading);font-size:12px;font-weight:600;color:var(--almost-black);margin-left:6px">–</span>
           </div>
         </div>
-        <div class="rate-row turbo-row">
+        <div class="rate-row turbo-row" style="border-bottom:none">
           <span class="rate-label">= FX Rate</span>
           <span id="finalRate" class="rate-value turbo-val">–</span>
         </div>
-        <div class="rate-row turbo-row" style="border-bottom:none">
-          <span class="rate-label">Indicative BRL Proceeds</span>
-          <span id="refValueInline" class="rate-value-blue turbo-val">–</span>
-        </div>
-      </div>
+              </div>
 
       <div class="rates-block">
         <div class="settle-header">
@@ -338,7 +334,7 @@
         <div class="rate-row">
           <span class="rate-label">+ IOF Tax (w/ rebate)</span>
           <span style="display:flex;align-items:center;gap:8px">
-            <span class="rate-value">1,50%</span>
+            <span class="rate-value">1.50%</span>
             <span id="iofValue" class="rate-value-blue">–</span>
           </span>
         </div>
@@ -383,7 +379,10 @@
   ]);
 
   function isoDate(d) {
-    return d.toISOString().slice(0,10);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
   }
 
   function isBusinessDay(d) {
@@ -519,7 +518,6 @@
     document.getElementById('spreadValue').textContent  = fmtRate(spread * activeSpot);
     document.getElementById('finalRate').textContent    = fmtRate(selectedRate);
     document.getElementById('refValue').textContent     = fmtBRL(refBRL);
-    document.getElementById('refValueInline').textContent = 'R$ ' + fmtBRL(refBRL);
     document.getElementById('finalRate2').textContent   = 'R$ ' + fmtBRL(refBRL);
     document.getElementById('iofValue').textContent     = 'R$ ' + fmtBRL(iofBRL);
     document.getElementById('convRate').textContent     = 'R$ ' + fmtBRL(depositBRL);
@@ -541,7 +539,7 @@
     calc();
   });
 
-  // Fetch spot agora e a cada 30s
+  // Fetch spot now and every 30s
   fetchSpot();
   setInterval(fetchSpot, 30000);
 </script>
